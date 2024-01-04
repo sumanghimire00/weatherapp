@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:weatherapp/common/common_state.dart';
 import 'package:weatherapp/cubit/weather_cubit.dart';
 import 'package:weatherapp/model/current_weather_model.dart';
+import 'package:weatherapp/widgets/screens/hourly_weather_screen.dart';
 
 class HomeBody extends StatefulWidget {
   const HomeBody({super.key});
@@ -16,6 +17,7 @@ class HomeBody extends StatefulWidget {
 
 class _HomeBodyState extends State<HomeBody> {
   final showLoading = false;
+  final datetime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,34 @@ class _HomeBodyState extends State<HomeBody> {
     double pixelRatio = MediaQuery.of(context).devicePixelRatio;
     final double fontSize = 7.6 * pixelRatio;
     return Scaffold(
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   title: Text(
+      //     DateFormat.yMMMd().format(datetime),
+      //     style: TextStyle(
+      //       fontSize: fontSize * 1.2,
+      //       color: Colors.white,
+      //       fontWeight: FontWeight.w300,
+      //     ),
+      //   ),
+      //   centerTitle: true,
+      //   leading: IconButton(
+      //     onPressed: () {},
+      //     icon: const Icon(
+      //       Icons.add,
+      //     ),
+      //     color: Colors.white,
+      //   ),
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {},
+      //       icon: const Icon(
+      //         Icons.forest,
+      //       ),
+      //       color: Colors.white,
+      //     ),
+      //   ],
+      // ),
       body: BlocBuilder<WeatherCubit, CommonState>(
         builder: (context, state) {
           if (state is CommonLoadingState) {
@@ -39,18 +69,18 @@ class _HomeBodyState extends State<HomeBody> {
             WeatherModel weatherdata = state.data;
 
             return SingleChildScrollView(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: size.width * 0.005),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SingleChildScrollView(
+                    child: Container(
                       padding: EdgeInsets.only(
                           left: size.width * 0.01,
                           right: size.width * 0.01,
                           top: size.height * 0.06,
-                          bottom: 15 * pixelRatio),
-                      height: size.height * 0.74,
+                          bottom: 7 * pixelRatio),
+                      height: size.height * 0.75,
                       width: size.width,
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
@@ -64,6 +94,8 @@ class _HomeBodyState extends State<HomeBody> {
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(40),
                           bottomRight: Radius.circular(40),
+                          // topLeft: Radius.circular(30),
+                          // topRight: Radius.circular(30),
                         ),
                       ),
                       child: Column(
@@ -158,10 +190,11 @@ class _HomeBodyState extends State<HomeBody> {
                           SizedBox(
                             height: 15 * pixelRatio,
                           ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Column(
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
                                   children: [
                                     Image.asset(
                                       'assets/weather/clouds.png',
@@ -190,9 +223,7 @@ class _HomeBodyState extends State<HomeBody> {
                                     ),
                                   ],
                                 ),
-                              ),
-                              Expanded(
-                                child: Column(
+                                Column(
                                   children: [
                                     Image.asset(
                                       'assets/weather/humidity.png',
@@ -220,9 +251,7 @@ class _HomeBodyState extends State<HomeBody> {
                                     ),
                                   ],
                                 ),
-                              ),
-                              Expanded(
-                                child: Column(
+                                Column(
                                   children: [
                                     Image.asset('assets/weather/windspeed.png',
                                         width: size.width * 0.11,
@@ -248,168 +277,220 @@ class _HomeBodyState extends State<HomeBody> {
                                     ),
                                   ],
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: size.height * 0.04,
+                  ),
+                  SizedBox(
+                    height: size.height * 0.02,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              "Gust",
+                              style: TextStyle(
+                                fontSize: fontSize,
+                                color: Colors.white.withOpacity(0.5),
+                              ),
+                            ),
+                            SizedBox(
+                              height: size.height * 0.01,
+                            ),
+                            Text(
+                              "${weatherdata.wind.gust} km/h",
+                              style: TextStyle(
+                                fontSize: fontSize,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              "Wind",
+                              style: TextStyle(
+                                fontSize: fontSize,
+                                color: Colors.white.withOpacity(0.5),
+                              ),
+                            ),
+                            SizedBox(
+                              height: size.height * 0.01,
+                            ),
+                            Text(
+                              "${weatherdata.wind.speed}km/h",
+                              style: TextStyle(
+                                fontSize: fontSize,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              "Deg",
+                              style: TextStyle(
+                                fontSize: fontSize,
+                                color: Colors.white.withOpacity(0.5),
+                              ),
+                            ),
+                            SizedBox(
+                              height: size.height * 0.01,
+                            ),
+                            Text(
+                              "${weatherdata.wind.deg}",
+                              style: TextStyle(
+                                fontSize: fontSize,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: size.height * 0.02,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              "Pressure",
+                              style: TextStyle(
+                                fontSize: fontSize,
+                                color: Colors.white.withOpacity(0.5),
+                              ),
+                            ),
+                            SizedBox(
+                              height: fontSize * 0.005,
+                            ),
+                            Text(
+                              "${weatherdata.main.pressure} hpa",
+                              style: TextStyle(
+                                fontSize: fontSize,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              "Sunrise",
+                              style: TextStyle(
+                                fontSize: fontSize,
+                                color: Colors.white.withOpacity(0.5),
+                              ),
+                            ),
+                            SizedBox(
+                              height: size.height * 0.005,
+                            ),
+                            Text(
+                              "${DateFormat.Hm().format(DateTime(weatherdata.sys.sunrise))} AM",
+                              style: TextStyle(
+                                fontSize: fontSize,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              "Sunset",
+                              style: TextStyle(
+                                fontSize: fontSize,
+                                color: Colors.white.withOpacity(0.5),
+                              ),
+                            ),
+                            SizedBox(
+                              height: size.height * 0.005,
+                            ),
+                            Text(
+                              "${DateFormat.Hm().format(
+                                DateTime(weatherdata.sys.sunset),
+                              )} PM",
+                              style: TextStyle(
+                                fontSize: fontSize,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: size.height * 0.03,
+                  ),
+                  SizedBox(
+                    height: size.height * 0.20,
+
+                    // 6 days weather data  List view
+                    child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: 6,
+                        itemBuilder: (context, index) {
+                          return HourlySCreen(
+                            item: index,
+                          );
+                        }),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 5 * pixelRatio,
+                      vertical: 3 * pixelRatio,
                     ),
-                    Row(
+                    child: Divider(
+                      color: Colors.white.withOpacity(0.5),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5 * pixelRatio),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Text(
-                                "Gust",
-                                style: TextStyle(
-                                  fontSize: fontSize,
-                                  color: Colors.white.withOpacity(0.5),
-                                ),
-                              ),
-                              SizedBox(
-                                height: size.height * 0.01,
-                              ),
-                              Text(
-                                "${weatherdata.wind.gust} km/h",
-                                style: TextStyle(
-                                  fontSize: fontSize,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
+                        const Text(
+                          "Next 7 days",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: Colors.white,
                           ),
                         ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Text(
-                                "Wind",
-                                style: TextStyle(
-                                  fontSize: fontSize,
-                                  color: Colors.white.withOpacity(0.5),
-                                ),
-                              ),
-                              SizedBox(
-                                height: size.height * 0.01,
-                              ),
-                              Text(
-                                "${weatherdata.wind.speed}km/h",
-                                style: TextStyle(
-                                  fontSize: fontSize,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Text(
-                                "Deg",
-                                style: TextStyle(
-                                  fontSize: fontSize,
-                                  color: Colors.white.withOpacity(0.5),
-                                ),
-                              ),
-                              SizedBox(
-                                height: size.height * 0.01,
-                              ),
-                              Text(
-                                "${weatherdata.wind.deg}",
-                                style: TextStyle(
-                                  fontSize: fontSize,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            "View Details",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: Colors.greenAccent,
+                            ),
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: size.height * 0.02,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Text(
-                                "Pressure",
-                                style: TextStyle(
-                                  fontSize: fontSize,
-                                  color: Colors.white.withOpacity(0.5),
-                                ),
-                              ),
-                              SizedBox(
-                                height: fontSize * 0.005,
-                              ),
-                              Text(
-                                "${weatherdata.main.pressure} hpa",
-                                style: TextStyle(
-                                  fontSize: fontSize,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Text(
-                                "Sunrise",
-                                style: TextStyle(
-                                  fontSize: fontSize,
-                                  color: Colors.white.withOpacity(0.5),
-                                ),
-                              ),
-                              SizedBox(
-                                height: size.height * 0.005,
-                              ),
-                              Text(
-                                "${DateFormat.Hm().format(DateTime(weatherdata.sys.sunrise))} AM",
-                                style: TextStyle(
-                                  fontSize: fontSize,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Expanded(
-                          child: Column(
-                            children: [
-                              Text(
-                                "Sunset",
-                                style: TextStyle(
-                                  fontSize: fontSize,
-                                  color: Colors.white.withOpacity(0.5),
-                                ),
-                              ),
-                              SizedBox(
-                                height: size.height * 0.005,
-                              ),
-                              Text(
-                                "${DateFormat.Hm().format(
-                                  DateTime(weatherdata.sys.sunset),
-                                )} PM",
-                                style: TextStyle(
-                                  fontSize: fontSize,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                  )
+                ],
               ),
             );
           } else if (state is CommonErrorState) {
