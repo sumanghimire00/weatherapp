@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:weatherapp/common/common_state.dart';
+import 'package:weatherapp/cubit/ourly_weather_cubit.dart';
 import 'package:weatherapp/cubit/weather_cubit.dart';
 import 'package:weatherapp/model/current_weather_model.dart';
+import 'package:weatherapp/model/hourly_weather_model.dart';
 import 'package:weatherapp/widgets/screens/hourly_weather_screen.dart';
 
 class HomeBody extends StatefulWidget {
@@ -23,43 +25,43 @@ class _HomeBodyState extends State<HomeBody> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double pixelRatio = MediaQuery.of(context).devicePixelRatio;
-    final double fontSize = 7.6 * pixelRatio;
+    final double fontSize = 7.3 * pixelRatio;
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   title: Text(
-      //     DateFormat.yMMMd().format(datetime),
-      //     style: TextStyle(
-      //       fontSize: fontSize * 1.2,
-      //       color: Colors.white,
-      //       fontWeight: FontWeight.w300,
-      //     ),
-      //   ),
-      //   centerTitle: true,
-      //   leading: IconButton(
-      //     onPressed: () {},
-      //     icon: const Icon(
-      //       Icons.add,
-      //     ),
-      //     color: Colors.white,
-      //   ),
-      //   actions: [
-      //     IconButton(
-      //       onPressed: () {},
-      //       icon: const Icon(
-      //         Icons.forest,
-      //       ),
-      //       color: Colors.white,
-      //     ),
-      //   ],
-      // ),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        title: Text(
+          DateFormat.yMMMd().format(datetime),
+          style: TextStyle(
+            fontSize: fontSize * 1.2,
+            color: Colors.white,
+            fontWeight: FontWeight.w300,
+          ),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.add,
+          ),
+          color: Colors.white,
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.sunny_snowing,
+            ),
+            color: Colors.white,
+          ),
+        ],
+      ),
       body: BlocBuilder<WeatherCubit, CommonState>(
         builder: (context, state) {
           if (state is CommonLoadingState) {
             return Container(
               height: size.height,
               width: size.width,
-              color: Colors.blueAccent,
+              color: Colors.indigo,
               child: const Center(
                   child: CircularProgressIndicator.adaptive(
                 backgroundColor: Colors.white,
@@ -75,27 +77,30 @@ class _HomeBodyState extends State<HomeBody> {
                 children: [
                   SingleChildScrollView(
                     child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 4 * pixelRatio),
                       padding: EdgeInsets.only(
                           left: size.width * 0.01,
                           right: size.width * 0.01,
-                          top: size.height * 0.06,
+                          top: size.height * 0.02,
                           bottom: 7 * pixelRatio),
-                      height: size.height * 0.75,
+                      height: size.height * 0.72,
                       width: size.width,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         gradient: LinearGradient(
                             colors: [
-                              Color.fromARGB(255, 158, 93, 228),
-                              Color.fromARGB(255, 74, 161, 238),
+                              const Color.fromARGB(255, 158, 93, 228)
+                                  .withOpacity(0.5),
+                              const Color.fromARGB(255, 74, 161, 238)
+                                  .withOpacity(0.5),
                             ],
                             begin: Alignment.bottomCenter,
                             end: Alignment.topCenter,
-                            stops: [0.2, 0.70]),
-                        borderRadius: BorderRadius.only(
+                            stops: const [0.2, 0.70]),
+                        borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(40),
                           bottomRight: Radius.circular(40),
-                          // topLeft: Radius.circular(30),
-                          // topRight: Radius.circular(30),
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
                         ),
                       ),
                       child: Column(
@@ -109,23 +114,23 @@ class _HomeBodyState extends State<HomeBody> {
                             ),
                           ),
                           SizedBox(
-                            height: size.height * 0.005,
+                            height: size.height * 0.06,
                           ),
-                          Text(
-                            DateFormat.yMMMd().format(
-                              DateTime.fromMillisecondsSinceEpoch(
-                                weatherdata.dt * 1000,
-                              ),
-                            ),
-                            style: TextStyle(
-                              fontSize: fontSize,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                          SizedBox(
-                            height: size.height * 0.04,
-                          ),
+                          // Text(
+                          //   DateFormat.yMMMd().format(
+                          //     DateTime.fromMillisecondsSinceEpoch(
+                          //       weatherdata.dt * 1000,
+                          //     ),
+                          //   ),
+                          //   style: TextStyle(
+                          //     fontSize: fontSize,
+                          //     color: Colors.white,
+                          //     fontWeight: FontWeight.w300,
+                          //   ),
+                          // ),
+                          // SizedBox(
+                          //   height: size.height * 0.04,
+                          // ),
                           Container(
                             margin: EdgeInsets.only(
                                 left: size.width * 0.02,
@@ -142,7 +147,7 @@ class _HomeBodyState extends State<HomeBody> {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 7.7 * pixelRatio,
+                                      fontSize: fontSize,
                                     ),
                                   ),
                                 ),
@@ -182,13 +187,13 @@ class _HomeBodyState extends State<HomeBody> {
                           Text(
                             "${weatherdata.main.temp}°C",
                             style: TextStyle(
-                              fontSize: 20 * pixelRatio,
+                              fontSize: 25 * pixelRatio,
                               color: Colors.white,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
                           SizedBox(
-                            height: 15 * pixelRatio,
+                            height: 20 * pixelRatio,
                           ),
                           Expanded(
                             child: Row(
@@ -445,16 +450,32 @@ class _HomeBodyState extends State<HomeBody> {
                     height: size.height * 0.20,
 
                     // 6 days weather data  List view
-                    child: ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: 6,
-                        itemBuilder: (context, index) {
-                          return HourlySCreen(
-                            item: index,
+                    child: BlocBuilder<OurlyWeatherCubit, CommonState>(
+                      builder: (context, state) {
+                        if (state is CommonSucessState) {
+                          HourlyWeatherModel hourweatherdata = state.data;
+                          return ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemCount: hourweatherdata.list.length > 6
+                                  ? 6
+                                  : hourweatherdata.list.length,
+                              itemBuilder: (context, index) {
+                                return HourlySCreen(
+                                  item: index,
+                                  hourlyWeatherModel: hourweatherdata,
+                                );
+                              });
+                        } else if (state is CommonErrorState) {
+                          return Text(state.message);
+                        } else {
+                          return const Center(
+                            child: CupertinoActivityIndicator(),
                           );
-                        }),
+                        }
+                      },
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(

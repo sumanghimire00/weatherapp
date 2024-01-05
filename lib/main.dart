@@ -7,7 +7,11 @@ import 'package:weatherapp/widgets/home_screen.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.indigo,
+      systemNavigationBarColor: Colors.indigo,
+    ),
+  );
   runApp(const MyApp());
 }
 
