@@ -37,7 +37,7 @@ class WeatherRepository {
       final hourlyWeatherModel = HourlyWeatherModel.fromJson(res.data);
       return Right(hourlyWeatherModel);
     } on DioException catch (e) {
-      return Left(e.response?.data["message"] ?? "Unable fetch weather data");
+      return Left(e.response?.data["message"] ?? "Unable fetch weather data!!");
     } catch (e) {
       return Left(e.toString());
     }
