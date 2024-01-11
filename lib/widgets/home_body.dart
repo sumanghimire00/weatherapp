@@ -83,7 +83,7 @@ class _HomeBodyState extends State<HomeBody> {
                           right: size.width * 0.01,
                           top: size.height * 0.02,
                           bottom: 7 * pixelRatio),
-                      height: size.height * 0.72,
+                      height: size.height * 0.70,
                       width: size.width,
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
