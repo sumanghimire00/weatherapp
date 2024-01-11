@@ -446,36 +446,31 @@ class _HomeBodyState extends State<HomeBody> {
                   SizedBox(
                     height: size.height * 0.03,
                   ),
-                  SizedBox(
-                    height: size.height * 0.20,
-
-                    // 6 days weather data  List view
-                    child: BlocBuilder<OurlyWeatherCubit, CommonState>(
-                      builder: (context, state) {
-                        if (state is CommonSucessState) {
-                          HourlyWeatherModel hourweatherdata = state.data;
-                          return ListView.builder(
-                              physics: const BouncingScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              itemCount: hourweatherdata.list.length > 6
-                                  ? 6
-                                  : hourweatherdata.list.length,
-                              itemBuilder: (context, index) {
-                                return HourlySCreen(
-                                  item: index,
-                                  hourlyWeatherModel: hourweatherdata,
-                                );
-                              });
-                        } else if (state is CommonErrorState) {
-                          return Text(state.message);
-                        } else {
-                          return const Center(
-                            child: CupertinoActivityIndicator(),
-                          );
-                        }
-                      },
-                    ),
+                  BlocBuilder<OurlyWeatherCubit, CommonState>(
+                    builder: (context, state) {
+                      if (state is CommonSucessState) {
+                        HourlyWeatherModel hourweatherdata = state.data;
+                        return ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: hourweatherdata.list.length > 6
+                                ? 6
+                                : hourweatherdata.list.length,
+                            itemBuilder: (context, index) {
+                              return HourlySCreen(
+                                item: index,
+                                hourlyWeatherModel: hourweatherdata,
+                              );
+                            });
+                      } else if (state is CommonErrorState) {
+                        return Text(state.message);
+                      } else {
+                        return const Center(
+                          child: CupertinoActivityIndicator(),
+                        );
+                      }
+                    },
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
