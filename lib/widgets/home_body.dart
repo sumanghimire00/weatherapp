@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:weatherapp/common/common_state.dart';
+import 'package:weatherapp/common/string.dart';
 import 'package:weatherapp/cubit/ourly_weather_cubit.dart';
 import 'package:weatherapp/cubit/weather_cubit.dart';
 import 'package:weatherapp/model/current_weather_model.dart';
@@ -70,14 +71,15 @@ class _HomeBodyState extends State<HomeBody> {
           } else if (state is CommonSucessState) {
             WeatherModel weatherdata = state.data;
 
-            return SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SingleChildScrollView(
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 4 * pixelRatio),
+            return Container(
+              padding: EdgeInsets.symmetric(horizontal: size.width * 0.01),
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 2 * pixelRatio),
                       padding: EdgeInsets.only(
                           left: size.width * 0.01,
                           right: size.width * 0.01,
@@ -116,21 +118,6 @@ class _HomeBodyState extends State<HomeBody> {
                           SizedBox(
                             height: size.height * 0.06,
                           ),
-                          // Text(
-                          //   DateFormat.yMMMd().format(
-                          //     DateTime.fromMillisecondsSinceEpoch(
-                          //       weatherdata.dt * 1000,
-                          //     ),
-                          //   ),
-                          //   style: TextStyle(
-                          //     fontSize: fontSize,
-                          //     color: Colors.white,
-                          //     fontWeight: FontWeight.w300,
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   height: size.height * 0.04,
-                          // ),
                           Container(
                             margin: EdgeInsets.only(
                                 left: size.width * 0.02,
@@ -288,225 +275,286 @@ class _HomeBodyState extends State<HomeBody> {
                         ],
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              "Gust",
-                              style: TextStyle(
-                                fontSize: fontSize,
-                                color: Colors.white.withOpacity(0.5),
-                              ),
-                            ),
-                            SizedBox(
-                              height: size.height * 0.01,
-                            ),
-                            Text(
-                              "${weatherdata.wind.gust} km/h",
-                              style: TextStyle(
-                                fontSize: fontSize,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              "Wind",
-                              style: TextStyle(
-                                fontSize: fontSize,
-                                color: Colors.white.withOpacity(0.5),
-                              ),
-                            ),
-                            SizedBox(
-                              height: size.height * 0.01,
-                            ),
-                            Text(
-                              "${weatherdata.wind.speed}km/h",
-                              style: TextStyle(
-                                fontSize: fontSize,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              "Deg",
-                              style: TextStyle(
-                                fontSize: fontSize,
-                                color: Colors.white.withOpacity(0.5),
-                              ),
-                            ),
-                            SizedBox(
-                              height: size.height * 0.01,
-                            ),
-                            Text(
-                              "${weatherdata.wind.deg}",
-                              style: TextStyle(
-                                fontSize: fontSize,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: size.height * 0.02,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              "Pressure",
-                              style: TextStyle(
-                                fontSize: fontSize,
-                                color: Colors.white.withOpacity(0.5),
-                              ),
-                            ),
-                            SizedBox(
-                              height: fontSize * 0.005,
-                            ),
-                            Text(
-                              "${weatherdata.main.pressure} hpa",
-                              style: TextStyle(
-                                fontSize: fontSize,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              "Sunrise",
-                              style: TextStyle(
-                                fontSize: fontSize,
-                                color: Colors.white.withOpacity(0.5),
-                              ),
-                            ),
-                            SizedBox(
-                              height: size.height * 0.005,
-                            ),
-                            Text(
-                              "${DateFormat.Hm().format(DateTime(weatherdata.sys.sunrise))} AM",
-                              style: TextStyle(
-                                fontSize: fontSize,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              "Sunset",
-                              style: TextStyle(
-                                fontSize: fontSize,
-                                color: Colors.white.withOpacity(0.5),
-                              ),
-                            ),
-                            SizedBox(
-                              height: size.height * 0.005,
-                            ),
-                            Text(
-                              "${DateFormat.Hm().format(
-                                DateTime(weatherdata.sys.sunset),
-                              )} PM",
-                              style: TextStyle(
-                                fontSize: fontSize,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: size.height * 0.03,
-                  ),
-                  BlocBuilder<OurlyWeatherCubit, CommonState>(
-                    builder: (context, state) {
-                      if (state is CommonSucessState) {
-                        HourlyWeatherModel hourweatherdata = state.data;
-                        return ListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            shrinkWrap: true,
-                            itemCount: hourweatherdata.list.length > 6
-                                ? 6
-                                : hourweatherdata.list.length,
-                            itemBuilder: (context, index) {
-                              return HourlySCreen(
-                                item: index,
-                                hourlyWeatherModel: hourweatherdata,
-                              );
-                            });
-                      } else if (state is CommonErrorState) {
-                        return Text(state.message);
-                      } else {
-                        return const Center(
-                          child: CupertinoActivityIndicator(),
-                        );
-                      }
-                    },
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 5 * pixelRatio,
-                      vertical: 3 * pixelRatio,
+                    SizedBox(
+                      height: size.height * 0.02,
                     ),
-                    child: Divider(
-                      color: Colors.white.withOpacity(0.5),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5 * pixelRatio),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Row(
                       children: [
-                        const Text(
-                          "Next 7 days",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: Colors.white,
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                "Gust",
+                                style: TextStyle(
+                                  fontSize: fontSize,
+                                  color: Colors.white.withOpacity(0.5),
+                                ),
+                              ),
+                              SizedBox(
+                                height: size.height * 0.01,
+                              ),
+                              Text(
+                                "${weatherdata.wind.gust} km/h",
+                                style: TextStyle(
+                                  fontSize: fontSize,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text(
-                            "View Details",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              color: Colors.greenAccent,
-                            ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                "Wind",
+                                style: TextStyle(
+                                  fontSize: fontSize,
+                                  color: Colors.white.withOpacity(0.5),
+                                ),
+                              ),
+                              SizedBox(
+                                height: size.height * 0.01,
+                              ),
+                              Text(
+                                "${weatherdata.wind.speed}km/h",
+                                style: TextStyle(
+                                  fontSize: fontSize,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                "Deg",
+                                style: TextStyle(
+                                  fontSize: fontSize,
+                                  color: Colors.white.withOpacity(0.5),
+                                ),
+                              ),
+                              SizedBox(
+                                height: size.height * 0.01,
+                              ),
+                              Text(
+                                "${weatherdata.wind.deg}",
+                                style: TextStyle(
+                                  fontSize: fontSize,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                  )
-                ],
+                    SizedBox(
+                      height: size.height * 0.02,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                "Pressure",
+                                style: TextStyle(
+                                  fontSize: fontSize,
+                                  color: Colors.white.withOpacity(0.5),
+                                ),
+                              ),
+                              SizedBox(
+                                height: fontSize * 0.005,
+                              ),
+                              Text(
+                                "${weatherdata.main.pressure} hpa",
+                                style: TextStyle(
+                                  fontSize: fontSize,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                "Sunrise",
+                                style: TextStyle(
+                                  fontSize: fontSize,
+                                  color: Colors.white.withOpacity(0.5),
+                                ),
+                              ),
+                              SizedBox(
+                                height: size.height * 0.005,
+                              ),
+                              Text(
+                                "${DateFormat.Hm().format(DateTime(weatherdata.sys.sunrise))} AM",
+                                style: TextStyle(
+                                  fontSize: fontSize,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                "Sunset",
+                                style: TextStyle(
+                                  fontSize: fontSize,
+                                  color: Colors.white.withOpacity(0.5),
+                                ),
+                              ),
+                              SizedBox(
+                                height: size.height * 0.005,
+                              ),
+                              Text(
+                                "${DateFormat.Hm().format(
+                                  DateTime(weatherdata.sys.sunset),
+                                )} PM",
+                                style: TextStyle(
+                                  fontSize: fontSize,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
+                    BlocBuilder<OurlyWeatherCubit, CommonState>(
+                      builder: (context, state) {
+                        if (state is CommonSucessState) {
+                          HourlyWeatherModel hourweatherdata = state.data;
+                          return SingleChildScrollView(
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: List.generate(
+                                hourweatherdata.list.length > 6
+                                    ? 6
+                                    : hourweatherdata.list.length,
+                                (index) => HourlySCreen(
+                                  item: index,
+                                  hourlyWeatherModel: hourweatherdata,
+                                ),
+                              ),
+                            ),
+                          );
+                        } else if (state is CommonErrorState) {
+                          return Text(state.message);
+                        } else {
+                          return const Center(
+                            child: CupertinoActivityIndicator(),
+                          );
+                        }
+                      },
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 5 * pixelRatio,
+                        vertical: 3 * pixelRatio,
+                      ),
+                      child: Divider(
+                        color: Colors.white.withOpacity(0.5),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5 * pixelRatio),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Next 7 days",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              fontSize: fontSize,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text(
+                              "View Details",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                color: Colors.greenAccent,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    //  7 days weather report  ui here
+
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: 7,
+                      shrinkWrap: true,
+                      itemBuilder: (context, int index) {
+                        var day = DateFormat("EEEE").format(
+                          DateTime.now().add(Duration(days: index + 1)),
+                        );
+                        return Card(
+                          color: Colors.blue,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    day,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                Builder(builder: (context) {
+                                  return Expanded(
+                                    child: TextButton.icon(
+                                      onPressed: null,
+                                      icon: Image.asset(
+                                        "assets/weather/13n.png",
+                                        width: 40,
+                                      ),
+                                      label: const Text(
+                                        "15$degree",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                                const Text(
+                                  "15$degree/24$degree",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             );
           } else if (state is CommonErrorState) {
