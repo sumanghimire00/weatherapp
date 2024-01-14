@@ -5,4 +5,4 @@ const String currentEndpoint =
 const double longitude = 85.324;
 const double latitude = 27.7172;
 const String hourlyapi =
-    "api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}";
+    "https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}";

@@ -3,8 +3,8 @@ import 'package:weatherapp/common/common_state.dart';
 import 'package:weatherapp/model/hourly_weather_model.dart';
 import 'package:weatherapp/repository/weather_repository.dart';
 
-class OurlyWeatherCubit extends Cubit<CommonState> {
-  OurlyWeatherCubit({required this.weatherRepository})
+class HourlyWeatherCubit extends Cubit<CommonState> {
+  HourlyWeatherCubit({required this.weatherRepository})
       : super(CommonInitialState());
 
   final WeatherRepository weatherRepository;

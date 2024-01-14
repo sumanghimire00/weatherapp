@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weatherapp/cubit/ourly_weather_cubit.dart';
+import 'package:weatherapp/cubit/hourly_weather_cubit.dart';
 import 'package:weatherapp/cubit/weather_cubit.dart';
 import 'package:weatherapp/repository/weather_repository.dart';
 import 'package:weatherapp/widgets/home_body.dart';
@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
                 ..fetchWeather(),
         ),
         BlocProvider(
-          create: (context) => OurlyWeatherCubit(
+          create: (context) => HourlyWeatherCubit(
               weatherRepository: context.read<WeatherRepository>())
             ..fetchWeather(),
         ),

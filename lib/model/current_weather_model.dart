@@ -112,9 +112,9 @@ class Coord {
 
 class Main {
   int temp;
-  double feelsLike;
-  double tempMin;
-  double tempMax;
+  int feelsLike;
+  int tempMin;
+  int tempMax;
   int pressure;
   int humidity;
   int seaLevel;
@@ -133,9 +133,9 @@ class Main {
 
   factory Main.fromJson(Map<String, dynamic> json) => Main(
         temp: json["temp"].toInt(),
-        feelsLike: json["feels_like"].toDouble(),
-        tempMin: json["temp_min"].toDouble(),
-        tempMax: json["temp_max"].toDouble(),
+        feelsLike: json["feels_like"].toInt(),
+        tempMin: json["temp_min"].toInt(),
+        tempMax: json["temp_max"].toInt(),
         pressure: json["pressure"],
         humidity: json["humidity"],
         seaLevel: json["sea_level"],

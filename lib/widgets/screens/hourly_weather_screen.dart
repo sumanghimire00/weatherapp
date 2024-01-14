@@ -11,6 +11,7 @@ class HourlySCreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double pixelRatio = MediaQuery.of(context).devicePixelRatio;
+
     final double fontSize = 7 * pixelRatio;
     var datetime = DateFormat.jm().format(DateTime.fromMillisecondsSinceEpoch(
         hourlyWeatherModel.list[item].dt * 1000));
@@ -38,7 +39,7 @@ class HourlySCreen extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.18,
           ),
           Text(
-            "${hourlyWeatherModel.list[item].main.temp}°",
+            "${hourlyWeatherModel.list[item].main.temp.toInt()}",
             style: TextStyle(
               fontSize: fontSize,
               color: Colors.white,
